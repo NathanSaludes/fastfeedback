@@ -11,5 +11,12 @@ export default function Dashboard() {
 		return 'Loading...'
 	}
 
-	return <EmptyState />
+	return (
+		<>
+			<Head>
+				<title>Dashboard</title>
+			</Head>
+			<EmptyState />
+		</>
+	)
 }
