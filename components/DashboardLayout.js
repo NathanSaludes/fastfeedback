@@ -12,7 +12,6 @@ export default function DashboardLayout({ children }) {
 			backgroundColor="gray.100"
 		>
 			<Flex
-				as="Navigation"
 				backgroundColor="white"
 				alignItems="center"
 				justifyContent="space-between"
