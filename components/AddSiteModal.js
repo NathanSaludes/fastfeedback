@@ -1,4 +1,7 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { createSite } from "@/lib/db";
+
+import { useForm } from 'react-hook-form'
 import {
 	Modal,
 	ModalOverlay,
@@ -11,13 +14,31 @@ import {
 	FormLabel,
 	Input,
 	useDisclosure,
-	Button
+	Button,
+	FormErrorMessage,
+	useToast
 } from "@chakra-ui/react"
 
 export default function AddSiteModal() {
-	const { isOpen, onOpen, onClose } = useDisclosure()
-
 	const initialRef = useRef()
+	const [loading, setLoading] = useState(false)
+	const { isOpen, onOpen, onClose } = useDisclosure()
+	const { register, handleSubmit, errors } = useForm()
+	const toast = useToast()
+
+	const onCreateSite = async (values) => {
+		setLoading(true)
+		await createSite(values)
+		toast({
+			title: "Success",
+			description: "You have successfully created a new site.",
+			status: "success",
+			isClosable: true,
+			duration: 9000
+		})
+		setLoading(false)
+		onClose()
+	}
 
 	return (
 		<>
@@ -30,29 +51,50 @@ export default function AddSiteModal() {
 				Add Your First Site
 			</Button>
 			<Modal
-				initialFocusRef={initialRef}
 				isOpen={isOpen}
 				onClose={onClose}
 			>
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent
+					as="form"
+					onSubmit={handleSubmit(onCreateSite)}
+				>
 					<ModalHeader fontWeight="bold">Add Site</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={6}>
-						<FormControl>
+						<FormControl isRequired>
 							<FormLabel>Name</FormLabel>
-							<Input ref={initialRef} placeholder="My site" />
+							<Input
+								placeholder="My site"
+								name="site"
+								ref={register({
+									required: true
+								})}
+							/>
+							<FormErrorMessage>{errors}</FormErrorMessage>
 						</FormControl>
 
-						<FormControl mt={4}>
+						<FormControl mt={4} isRequired>
 							<FormLabel>Link</FormLabel>
-							<Input placeholder="https://website.com" />
+							<Input
+								placeholder="https://website.com"
+								name="url"
+								ref={register({
+									required: true
+								})}
+							/>
 						</FormControl>
 					</ModalBody>
 
 					<ModalFooter>
 						<Button onClick={onClose} mr={3}>Cancel</Button>
-						<Button colorScheme="teal">Create</Button>
+						<Button
+							colorScheme="teal"
+							type="submit"
+							isLoading={loading}
+						>
+							Create
+						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
