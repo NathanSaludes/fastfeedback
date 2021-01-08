@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import styles from '@/styles/Home.module.css'
 
 import { GithubIcon, LogoIcon } from '@/styles/icons'
@@ -11,8 +12,9 @@ export default function Home() {
 	const showAuthentication = () => {
 		if (auth.user) {
 			return (
-				<Flex direction="column">
-					<Text>{auth.user.name}</Text>
+				<Flex direction="column" justifyContent="center" alignItems="center">
+					<Text mb={1}>{auth.user.name}</Text>
+					<Link href='/dashboard'><Button mb={2}>View Dashboard</Button></Link>
 					<Button onClick={() => auth.signOut()}>Sign Out</Button>
 				</Flex>
 			)
