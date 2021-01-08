@@ -23,8 +23,10 @@ export default function DashboardLayout({ children }) {
 					<Link>Sites</Link>
 				</Stack>
 				<Flex alignItems="center">
-					<Link mr={4}>Account</Link>
-					<Avatar size="sm" src={auth.user.photoUrl} />
+					<Link href="/" mr={3}>{auth.user?.name}</Link>
+					<Link href="/">
+						<Avatar size="sm" src={auth.user?.photoUrl} />
+					</Link>
 				</Flex>
 			</Flex>
 			<Flex>
@@ -44,6 +46,6 @@ export default function DashboardLayout({ children }) {
 					{children}
 				</Flex>
 			</Flex>
-		</Flex>
+		</Flex >
 	)
 }
