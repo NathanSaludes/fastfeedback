@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { createSite } from "@/lib/db";
+import { useAuth } from '@/lib/auth';
 
 import { useForm } from 'react-hook-form'
 import {
@@ -21,14 +22,19 @@ import {
 
 export default function AddSiteModal() {
 	const initialRef = useRef()
+	const auth = useAuth()
 	const [loading, setLoading] = useState(false)
 	const { isOpen, onOpen, onClose } = useDisclosure()
-	const { register, handleSubmit, errors } = useForm()
+	const { register, handleSubmit } = useForm()
 	const toast = useToast()
 
 	const onCreateSite = async (values) => {
 		setLoading(true)
-		await createSite(values)
+		await createSite({
+			authorId: auth.user.uid,
+			createdAt: new Date().toISOString(),
+			...values
+		})
 		toast({
 			title: "Success",
 			description: "You have successfully created a new site.",
@@ -71,7 +77,6 @@ export default function AddSiteModal() {
 									required: true
 								})}
 							/>
-							<FormErrorMessage>{errors}</FormErrorMessage>
 						</FormControl>
 
 						<FormControl mt={4} isRequired>
