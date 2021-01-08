@@ -11,7 +11,7 @@ export const LogoIcon = createIcon({
 	)
 })
 
-export const Github = createIcon({
+export const GithubIcon = createIcon({
 	displayName: "github",
 	path: (
 		<g

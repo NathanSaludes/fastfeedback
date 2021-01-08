@@ -1,5 +1,7 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+
 import DashboardLayout from "./DashboardLayout";
+import AddSiteModal from "./AddSiteModal";
 
 export default function EmptyState() {
 	return (
@@ -9,10 +11,12 @@ export default function EmptyState() {
 				backgroundColor="white"
 				alignItems="center"
 				direction="column"
+				padding={8}
+				borderRadius="1rem"
 			>
-				<Heading size="md" margin="0.5rem">You haven't added any sites.</Heading>
+				<Heading size="lg" margin="0.5rem">You haven't added any sites.</Heading>
 				<Text mb={10}>Welcome! Let's get started 🤘 </Text>
-				<Button fontWeight="medium" width="13rem" maxW="13rem">Add Your First Site</Button>
+				<AddSiteModal />
 			</Flex>
 		</DashboardLayout>
 	)
